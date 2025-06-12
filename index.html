@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How Are You Feeling Today?</title>
+  <style>
+    /* Center the whole page content */
+    body, html {
+      height: 100%;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 24px;
+    }
+    .emoji-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .emoji-box {
+      cursor: pointer;
+      border: 2px solid transparent;
+      border-radius: 12px;
+      padding: 15px 0;
+      user-select: none;
+      transition: border-color 0.3s ease, background-color 0.3s ease;
+    }
+    .emoji-box.selected {
+      border-color: #2196f3;
+      background-color: #e3f2fd;
+    }
+    .emoji {
+      font-size: 48px;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .label {
+      font-weight: bold;
+      font-size: 16px;
+      color: #333;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #2196f3;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #1976d2;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>How Are You Feeling Today?</h2>
+    <form id="moodForm">
+      <div class="emoji-grid" id="emojiGrid">
+        <div class="emoji-box" data-value="calm">
+          <span class="emoji">😌</span>
+          <span class="label">Calm</span>
+        </div>
+        <div class="emoji-box" data-value="need-help">
+          <span class="emoji">❓</span>
+          <span class="label">Need Help</span>
+        </div>
+        <div class="emoji-box" data-value="focus">
+          <span class="emoji">🎯</span>
+          <span class="label">Focus</span>
+        </div>
+        <div class="emoji-box" data-value="relax">
+          <span class="emoji">🛋</span>
+          <span class="label">Relax</span>
+        </div>
+        <div class="emoji-box" data-value="happy">
+          <span class="emoji">😊</span>
+          <span class="label">Happy</span>
+        </div>
+        <div class="emoji-box" data-value="tired">
+          <span class="emoji">😴</span>
+          <span class="label">Tired</span>
+        </div>
+      </div>
+      <button type="submit">Go to Map</button>
+    </form>
+  </div>
+
+  <script>
+    const emojiGrid = document.getElementById('emojiGrid');
+    let selectedMood = null;
+
+    emojiGrid.addEventListener('click', e => {
+      const box = e.target.closest('.emoji-box');
+      if (!box) return;
+
+      // Remove previous selection
+      document.querySelectorAll('.emoji-box.selected').forEach(el => {
+        el.classList.remove('selected');
+      });
+
+      // Mark clicked as selected
+      box.classList.add('selected');
+      selectedMood = box.getAttribute('data-value');
+    });
+
+    document.getElementById('moodForm').addEventListener('submit', e => {
+      e.preventDefault();
+
+      if (!selectedMood) {
+        alert('Please select a mood before proceeding.');
+        return;
+      }
+
+      // Save to sessionStorage
+      sessionStorage.setItem('userMood', selectedMood);
+
+      // Redirect to personal map page
+      window.location.href = 'personal-map.html';
+    });
+  </script>
+</body>
+</html>
